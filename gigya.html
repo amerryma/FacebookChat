@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<!-- socialize.js script should only be included once -->
+<script type="text/javascript" src="http://cdn.gigya.com/js/socialize.js?apiKey=INSERT_KEY_HERE">
+    {
+        siteName: '68.96.57.26 (Plugin Testing)'
+            ,enabledProviders: 'facebook,twitter,googleplus,linkedin,yahoo,microsoft,aol,foursquare,orkut,instagram,vkontakte,renren,QQ,Sina,kaixin'
+    }
+</script>
+<script type="text/javascript">
+    var login_params=
+    {
+        showTermsLink: 'false'
+        ,height: 100
+        ,width: 330
+        ,containerID: 'componentDiv'
+        ,buttonsStyle: 'fullLogo'
+        ,autoDetectUserProviders: ''
+        ,facepilePosition: 'none'
+    }
+</script>
+<div id="componentDiv"></div>
+<script type="text/javascript">
+    gigya.socialize.showLoginUI(login_params);
+    function DisplayEventMessage(eventObj) {
+        alert(eventObj.eventName + " event happened");
+    }
+
+    gigya.socialize.addEventHandlers(
+        {
+            onLogin:DisplayEventMessage,
+            onConnectionAdded:DisplayEventMessage,
+            onConnectionRemoved:DisplayEventMessage
+        }
+    );
+
+    function printResponse(response) {
+        if ( response.errorCode == 0 ) {
+            var authToken = response['authToken'];
+            var IV = response['IV'];
+            var sessionExpiration = response['sessionExpiration'];
+
+            var sessionHandle = response['sessionHandle'];
+            var tokenExpiration = response['tokenExpiration'];
+            var tokenSecret = response['tokenSecret'];
+
+            var msg = 'authToken : ' +authToken + '\n';
+            msg+= 'IV : ' +IV + '\n';
+            msg+= 'sessionExpiration : ' +sessionExpiration + '\n';
+            msg+= 'sessionHandle : ' +sessionHandle + '\n';
+            msg+= 'tokenExpiration : ' +tokenExpiration + '\n';
+            msg+= 'tokenSecret : ' +tokenSecret + '\n';
+
+            alert(msg);
+        }
+        else {
+            alert('Error :' + response.errorMessage);
+        }
+    }
+
+    var params = {
+        provider: 'facebook',
+        callback:printResponse
+    };
+
+    gigya.socialize.getSessionInfo(params);
+</script>
+</body>
+</html>
